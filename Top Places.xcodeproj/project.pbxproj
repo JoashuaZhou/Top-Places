@@ -7,7 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4271D9B918EFC41F003F6283 /* TopPhotoListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4271D9B818EFC41F003F6283 /* TopPhotoListTableViewController.m */; };
+		4271D9BC18EFC4F8003F6283 /* PhotoListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4271D9BB18EFC4F8003F6283 /* PhotoListTableViewController.m */; };
+		4271D9C118EFCA54003F6283 /* ImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4271D9C018EFCA54003F6283 /* ImageViewController.m */; };
 		428ADA2A18E3CDE90084A772 /* FlickrFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 428ADA2918E3CDE90084A772 /* FlickrFetcher.m */; };
+		428ADA2D18E3D6750084A772 /* TopPlacesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 428ADA2C18E3D6750084A772 /* TopPlacesTableViewController.m */; };
+		428ADA3018E3D68F0084A772 /* RecentsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 428ADA2F18E3D68F0084A772 /* RecentsTableViewController.m */; };
 		42FBF39D18D48BC6003AAAA7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42FBF39C18D48BC6003AAAA7 /* Foundation.framework */; };
 		42FBF39F18D48BC6003AAAA7 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42FBF39E18D48BC6003AAAA7 /* CoreGraphics.framework */; };
 		42FBF3A118D48BC6003AAAA7 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42FBF3A018D48BC6003AAAA7 /* UIKit.framework */; };
@@ -16,7 +21,6 @@
 		42FBF3AD18D48BC6003AAAA7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 42FBF3AC18D48BC6003AAAA7 /* AppDelegate.m */; };
 		42FBF3B018D48BC6003AAAA7 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42FBF3AE18D48BC6003AAAA7 /* Main_iPhone.storyboard */; };
 		42FBF3B318D48BC6003AAAA7 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42FBF3B118D48BC6003AAAA7 /* Main_iPad.storyboard */; };
-		42FBF3B618D48BC6003AAAA7 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42FBF3B518D48BC6003AAAA7 /* ViewController.m */; };
 		42FBF3B818D48BC6003AAAA7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 42FBF3B718D48BC6003AAAA7 /* Images.xcassets */; };
 		42FBF3BF18D48BC6003AAAA7 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42FBF3BE18D48BC6003AAAA7 /* XCTest.framework */; };
 		42FBF3C018D48BC6003AAAA7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42FBF39C18D48BC6003AAAA7 /* Foundation.framework */; };
@@ -36,9 +40,19 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4271D9B718EFC41F003F6283 /* TopPhotoListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopPhotoListTableViewController.h; sourceTree = "<group>"; };
+		4271D9B818EFC41F003F6283 /* TopPhotoListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopPhotoListTableViewController.m; sourceTree = "<group>"; };
+		4271D9BA18EFC4F8003F6283 /* PhotoListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoListTableViewController.h; sourceTree = "<group>"; };
+		4271D9BB18EFC4F8003F6283 /* PhotoListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoListTableViewController.m; sourceTree = "<group>"; };
+		4271D9BF18EFCA54003F6283 /* ImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageViewController.h; sourceTree = "<group>"; };
+		4271D9C018EFCA54003F6283 /* ImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageViewController.m; sourceTree = "<group>"; };
 		428ADA2718E3CDE90084A772 /* FlickrAPIKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlickrAPIKey.h; sourceTree = "<group>"; };
 		428ADA2818E3CDE90084A772 /* FlickrFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlickrFetcher.h; sourceTree = "<group>"; };
 		428ADA2918E3CDE90084A772 /* FlickrFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlickrFetcher.m; sourceTree = "<group>"; };
+		428ADA2B18E3D6750084A772 /* TopPlacesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopPlacesTableViewController.h; sourceTree = "<group>"; };
+		428ADA2C18E3D6750084A772 /* TopPlacesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopPlacesTableViewController.m; sourceTree = "<group>"; };
+		428ADA2E18E3D68F0084A772 /* RecentsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecentsTableViewController.h; sourceTree = "<group>"; };
+		428ADA2F18E3D68F0084A772 /* RecentsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecentsTableViewController.m; sourceTree = "<group>"; };
 		42FBF39918D48BC6003AAAA7 /* Top Places.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Top Places.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		42FBF39C18D48BC6003AAAA7 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		42FBF39E18D48BC6003AAAA7 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -51,8 +65,6 @@
 		42FBF3AC18D48BC6003AAAA7 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		42FBF3AF18D48BC6003AAAA7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
 		42FBF3B218D48BC6003AAAA7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPad.storyboard; sourceTree = "<group>"; };
-		42FBF3B418D48BC6003AAAA7 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		42FBF3B518D48BC6003AAAA7 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		42FBF3B718D48BC6003AAAA7 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		42FBF3BD18D48BC6003AAAA7 /* Top PlacesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Top PlacesTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		42FBF3BE18D48BC6003AAAA7 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -85,6 +97,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4271D9BD18EFC514003F6283 /* TopPlaces */ = {
+			isa = PBXGroup;
+			children = (
+				428ADA2B18E3D6750084A772 /* TopPlacesTableViewController.h */,
+				428ADA2C18E3D6750084A772 /* TopPlacesTableViewController.m */,
+				4271D9B718EFC41F003F6283 /* TopPhotoListTableViewController.h */,
+				4271D9B818EFC41F003F6283 /* TopPhotoListTableViewController.m */,
+			);
+			name = TopPlaces;
+			sourceTree = "<group>";
+		};
+		4271D9BE18EFC53D003F6283 /* Recents */ = {
+			isa = PBXGroup;
+			children = (
+				428ADA2E18E3D68F0084A772 /* RecentsTableViewController.h */,
+				428ADA2F18E3D68F0084A772 /* RecentsTableViewController.m */,
+			);
+			name = Recents;
+			sourceTree = "<group>";
+		};
 		428ADA2618E3CDE90084A772 /* Flickr Fetcher */ = {
 			isa = PBXGroup;
 			children = (
@@ -130,8 +162,12 @@
 			children = (
 				42FBF3AE18D48BC6003AAAA7 /* Main_iPhone.storyboard */,
 				42FBF3B118D48BC6003AAAA7 /* Main_iPad.storyboard */,
-				42FBF3B418D48BC6003AAAA7 /* ViewController.h */,
-				42FBF3B518D48BC6003AAAA7 /* ViewController.m */,
+				4271D9BA18EFC4F8003F6283 /* PhotoListTableViewController.h */,
+				4271D9BB18EFC4F8003F6283 /* PhotoListTableViewController.m */,
+				4271D9BF18EFCA54003F6283 /* ImageViewController.h */,
+				4271D9C018EFCA54003F6283 /* ImageViewController.m */,
+				4271D9BD18EFC514003F6283 /* TopPlaces */,
+				4271D9BE18EFC53D003F6283 /* Recents */,
 				428ADA2618E3CDE90084A772 /* Flickr Fetcher */,
 				42FBF3B718D48BC6003AAAA7 /* Images.xcassets */,
 				42FBF3A318D48BC6003AAAA7 /* Supporting Files */,
@@ -268,10 +304,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				42FBF3B618D48BC6003AAAA7 /* ViewController.m in Sources */,
+				4271D9C118EFCA54003F6283 /* ImageViewController.m in Sources */,
 				42FBF3AD18D48BC6003AAAA7 /* AppDelegate.m in Sources */,
+				4271D9B918EFC41F003F6283 /* TopPhotoListTableViewController.m in Sources */,
 				428ADA2A18E3CDE90084A772 /* FlickrFetcher.m in Sources */,
+				4271D9BC18EFC4F8003F6283 /* PhotoListTableViewController.m in Sources */,
+				428ADA3018E3D68F0084A772 /* RecentsTableViewController.m in Sources */,
 				42FBF3A918D48BC6003AAAA7 /* main.m in Sources */,
+				428ADA2D18E3D6750084A772 /* TopPlacesTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
