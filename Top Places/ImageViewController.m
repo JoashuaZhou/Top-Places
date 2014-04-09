@@ -7,8 +7,9 @@
 //
 
 #import "ImageViewController.h"
+#import "TopPlacesTableViewController.h"
 
-@interface ImageViewController () <UIScrollViewDelegate>
+@interface ImageViewController () <UIScrollViewDelegate, UISplitViewControllerDelegate>
 
 @property (strong, nonatomic) UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
@@ -17,12 +18,6 @@
 @end
 
 @implementation ImageViewController
-
-#pragma mark - iPad support
-//- (void)awakeFromNib
-//{
-//
-//}
 
 - (void)viewDidLoad
 {
@@ -82,8 +77,10 @@
 
 - (void)downloadPhoto
 {
-    [self.spinner startAnimating];
+    self.image = nil;   // 每次下载时，原图片要清空
     
+    // 注意：要在storyboard里面的菊花选项的Animating去掉，不然就算你不选图片，菊花也会出现
+    [self.spinner startAnimating];  // 如果把这一句放在self.image = nil前面，就看不到菊花了，为什么？
     NSURLRequest *request = [NSURLRequest requestWithURL:self.URLForImage];
     NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration ephemeralSessionConfiguration];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration];
@@ -99,4 +96,29 @@
 
     [task resume];  // 默认是挂起
 }
+
+#pragma mark - iPad support
+- (void)awakeFromNib
+{
+    self.splitViewController.delegate = self;   // 因为UISplitViewController没有设置类，所以把delegate设置成self，这self这里帮它实现那些方法
+}
+
+- (BOOL)splitViewController:(UISplitViewController *)svc shouldHideViewController:(UIViewController *)vc inOrientation:(UIInterfaceOrientation)orientation  // 其实这方法是default，就算不设置也是这样
+{
+    return UIInterfaceOrientationIsPortrait(orientation);
+}
+
+- (void)splitViewController:(UISplitViewController *)svc willHideViewController:(UIViewController *)aViewController withBarButtonItem:(UIBarButtonItem *)barButtonItem forPopoverController:(UIPopoverController *)pc
+{
+    // 要实现下面那一行，要在storyboard那里设置tabBarController的title，不然会是nil，看来aViewController = master的第一个view
+    barButtonItem.title = aViewController.title; // 这里的aViewController指的是hide起来的ViewController，即Master
+    self.navigationItem.leftBarButtonItem = barButtonItem;  // 转向Portrait后，左上角出现的button
+    
+}
+
+- (void)splitViewController:(UISplitViewController *)svc willShowViewController:(UIViewController *)aViewController invalidatingBarButtonItem:(UIBarButtonItem *)barButtonItem
+{
+    self.navigationItem.leftBarButtonItem = nil;
+}
+
 @end

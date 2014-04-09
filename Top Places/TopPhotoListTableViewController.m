@@ -46,6 +46,17 @@
     return cell;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    id detail = self.splitViewController.viewControllers[1];
+    if ([detail isKindOfClass:[UINavigationController class]]) {        // 因为不这样做，detail就会变成navigationController而不是ImageViewController
+        detail = ((UINavigationController *)detail).viewControllers.firstObject;
+    }
+    if ([detail isKindOfClass:[ImageViewController class]]) {
+        [self segueAndDisplayPhotos:detail photo:self.photos[indexPath.row]];
+    }
+}
+
 #pragma mark - Navigation
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -66,7 +77,10 @@
 {
     tpvc.URLForImage = [FlickrFetcher URLforPhoto:photos format:FlickrPhotoFormatLarge];
     tpvc.title = [photos valueForKeyPath:FLICKR_PHOTO_TITLE];
-    [self saveDatabase:tpvc.title andURL:tpvc.URLForImage];
+    
+    // saveDatabase是个intensive job，为了不阻塞main queue，我们新创建一个线程来做这件事
+    dispatch_queue_t databaseThread = dispatch_queue_create("databaseThread", NULL);
+    dispatch_async(databaseThread, ^{ [self saveDatabase:tpvc.title andURL:tpvc.URLForImage]; });
 }
 
 - (void)saveDatabase:(NSString *)title andURL:(NSURL *)url
@@ -90,7 +104,7 @@
     }
     [self.sortingArray addObject:title];
     [recentsDatabase setObject:self.sortingArray forKey:@"array"];
-    [recentsDatabase synchronize]; // 马上把cache中的数据写入磁盘
+//    [recentsDatabase synchronize]; // 马上把cache中的数据写入磁盘
 }
 
 //- (void)readDatabase      不知道为什么这么写是不行的，所以想要每次读取database，我把它放在init数组和字典里面了

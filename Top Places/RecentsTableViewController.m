@@ -80,6 +80,17 @@
     return cell;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    id detail = self.splitViewController.viewControllers[1];
+    if ([detail isKindOfClass:[UINavigationController class]]) {        // 因为不这样做，detail就会变成navigationController而不是ImageViewController
+        detail = ((UINavigationController *)detail).viewControllers.firstObject;
+    }
+    if ([detail isKindOfClass:[ImageViewController class]]) {
+        [self segueAndDisplayPhotos:detail photoTitle:self.sortingArray[indexPath.row]];
+    }
+}
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([sender isKindOfClass:[UITableViewCell class]]) {
