@@ -16,26 +16,47 @@
 
 @implementation TopPlacesTableViewController
 
+-(void)setFetchPlaces:(NSArray *)fetchPlaces
+{
+    _fetchPlaces = fetchPlaces;
+    [self.tableView reloadData];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     [self fetchTopPlacesList];
+    [self.navigationItem.backBarButtonItem setTitle:@""];
 }
 
 - (void)fetchTopPlacesList
 {
-    NSURL *fetchURL = [FlickrFetcher URLforTopPlaces];
-    NSData *fetchData = [NSData dataWithContentsOfURL:fetchURL];
-    NSDictionary *fetchDictionary = [NSJSONSerialization JSONObjectWithData:fetchData options:0 error:NULL];
-    self.fetchPlaces = [fetchDictionary valueForKeyPath:FLICKR_RESULTS_PLACES];
+    [self.refreshControl beginRefreshing];
+    
+    dispatch_queue_t fetchQ = dispatch_queue_create("flickr fetcher", NULL);
+    dispatch_async(fetchQ, ^{
+        NSURL *fetchURL = [FlickrFetcher URLforTopPlaces];
+        NSData *fetchData = [NSData dataWithContentsOfURL:fetchURL];
+        NSDictionary *fetchDictionary = [NSJSONSerialization JSONObjectWithData:fetchData options:0 error:NULL];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.refreshControl endRefreshing];
+            self.fetchPlaces = [fetchDictionary valueForKeyPath:FLICKR_RESULTS_PLACES];
+        });
+    });
 //    self.fetchPlacesID = [fetchDictionary valueForKeyPath:FLICKR_PLACE_ID]; 这样肯定获取不到PlaceID，因为上一行获得的是一大堆Place类
+    
+//    NSURL *fetchURL = [FlickrFetcher URLforTopPlaces];
+//    NSData *fetchData = [NSData dataWithContentsOfURL:fetchURL];
+//    NSDictionary *fetchDictionary = [NSJSONSerialization JSONObjectWithData:fetchData options:0 error:NULL];
+//    self.fetchPlaces = [fetchDictionary valueForKeyPath:FLICKR_RESULTS_PLACES];
+
 }
 
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#warning Potentially incomplete method implementation.
+#warning 用国家名区别section.
     // Return the number of sections.
     return 1;
 }

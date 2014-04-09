@@ -11,4 +11,7 @@
 
 @interface TopPhotoListTableViewController : PhotoListTableViewController
 
+@property (strong, nonatomic) NSMutableArray *sortingArray;
+@property (strong, nonatomic) NSMutableDictionary *dictionary;
+
 @end

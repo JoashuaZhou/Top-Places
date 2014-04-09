@@ -8,6 +8,8 @@
 
 #import "RecentsTableViewController.h"
 #import "FlickrFetcher.h"
+#import "ImageViewController.h"
+#import "RecentsDatabase.h"
 
 @interface RecentsTableViewController ()
 
@@ -15,96 +17,91 @@
 
 @implementation RecentsTableViewController
 
+- (NSArray *)sortingArray
+{
+    if (!_sortingArray) {
+        _sortingArray = [[NSMutableArray alloc] initWithCapacity:10];
+    }
+    return _sortingArray;
+}
+
+- (NSDictionary *)dictionary
+{
+    if (!_dictionary) {
+        _dictionary = [[NSDictionary alloc] init];
+    }
+    return _dictionary;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self fetchRecentsList];
+    [self.navigationItem.backBarButtonItem setTitle:@""];
+    [self readDatabase];
 }
 
-- (void)fetchRecentsList
+-(void)viewDidAppear:(BOOL)animated
 {
-    NSURL *fetchURL = [FlickrFetcher URLforRecentGeoreferencedPhotos];
-    NSData *fetchData = [NSData dataWithContentsOfURL:fetchURL];
-    NSDictionary *fetchDictionary = [NSJSONSerialization JSONObjectWithData:fetchData options:0 error:NULL];
-    self.fetchRecents = [fetchDictionary valueForKeyPath:FLICKR_RESULTS_PLACES];
+    [super viewDidAppear:animated];
+    [self readDatabase];
+}
+
+- (void)readDatabase
+{
+    RecentsDatabase *recentsDatabase = (RecentsDatabase *)[RecentsDatabase standardUserDefaults];
+    self.sortingArray = [recentsDatabase arrayForKey:@"array"];
+    self.dictionary = [recentsDatabase dictionaryForKey:@"dictionary"];
+    [self.tableView reloadData];    // 性能问题，需要改
 }
 
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#warning Potentially incomplete method implementation.
-    // Return the number of sections.
+#warning 用国家名区别section.
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#warning Incomplete method implementation.
-    // Return the number of rows in the section.
-    return [self.fetchRecents count];
+    return [self.sortingArray count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Recents Photo" forIndexPath:indexPath];
-    NSDictionary *recents = self.fetchRecents[indexPath.row];
+
+    cell.textLabel.text = self.sortingArray[indexPath.row];
     
-    NSString *recentsInformation = [recents valueForKeyPath:FLICKR_PLACE_NAME]; // 与FLICKR_PHOTO_TITLE区别？与valueForKeyPath区别？
-    NSArray *title = [recentsInformation componentsSeparatedByString:@", "];
-    cell.textLabel.text = title[0];
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@, %@", title[1], title[2]];
-    cell.detailTextLabel.textColor = [UIColor blueColor];
+    if (cell.textLabel.text.length == 0) {      // 如果没有titile，就改成Unknown
+        cell.textLabel.text = @"Unknown";
+    }
+    
     return cell;
 }
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    if ([sender isKindOfClass:[UITableViewCell class]]) {
+        NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
+        if (indexPath) {
+            if ([segue.identifier isEqualToString:@"showPhoto"]) {
+                if ([segue.destinationViewController isKindOfClass:[ImageViewController class]]) {
+                    [self segueAndDisplayPhotos:segue.destinationViewController photoTitle:self.sortingArray[indexPath.row]];
+                }
+            }
+        }
+    }
 }
-*/
+
+- (void)segueAndDisplayPhotos:(ImageViewController *)ivc photoTitle:(NSString *)photoTitle
+{
+    NSData *urlData = (NSData *)[self.dictionary objectForKey:photoTitle];
+    UIImage *image = [UIImage imageWithData:urlData];
+//    NSURL *url = [NSURL URLWithString:string];
+//    ivc.URLForImage = url;
+    ivc.title = photoTitle;
+    ivc.image = image;
+}
 
 @end

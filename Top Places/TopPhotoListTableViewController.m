@@ -8,6 +8,7 @@
 
 #import "TopPhotoListTableViewController.h"
 #import "ImageViewController.h"
+#import "RecentsDatabase.h"
 
 @interface TopPhotoListTableViewController ()
 
@@ -15,13 +16,33 @@
 
 @implementation TopPhotoListTableViewController
 
+- (NSMutableArray *)sortingArray
+{
+    if (!_sortingArray) {
+        RecentsDatabase *recentsDatabase = (RecentsDatabase *)[RecentsDatabase standardUserDefaults];
+        _sortingArray = [[NSMutableArray alloc] initWithArray:[recentsDatabase arrayForKey:@"array"]];
+    }
+    return _sortingArray;
+}
+
+- (NSMutableDictionary *)dictionary
+{
+    if (!_dictionary) {
+        RecentsDatabase *recentsDatabase = (RecentsDatabase *)[RecentsDatabase standardUserDefaults];
+        _dictionary = [[NSMutableDictionary alloc] initWithDictionary:[recentsDatabase dictionaryForKey:@"dictionary"]];
+    }
+    return _dictionary;
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TopPlaces Photo" forIndexPath:indexPath];
     
     NSDictionary *photo = self.photos[indexPath.row];
     cell.textLabel.text = [photo valueForKeyPath:FLICKR_PHOTO_TITLE];
-    
+    if (cell.textLabel.text.length == 0) {      // 如果没有titile，就改成Unknown
+        cell.textLabel.text = @"Unknown";
+    }
     return cell;
 }
 
@@ -45,6 +66,39 @@
 {
     tpvc.URLForImage = [FlickrFetcher URLforPhoto:photos format:FlickrPhotoFormatLarge];
     tpvc.title = [photos valueForKeyPath:FLICKR_PHOTO_TITLE];
+    [self saveDatabase:tpvc.title andURL:tpvc.URLForImage];
 }
+
+- (void)saveDatabase:(NSString *)title andURL:(NSURL *)url
+{
+//    [self readDatabase];
+    RecentsDatabase *recentsDatabase = (RecentsDatabase *)[RecentsDatabase standardUserDefaults];
+    NSData *urlData = [NSData dataWithContentsOfURL:url];   // ContentOfURL存的是URL的内容，这里即URL对应的图片，而不是URL本身
+    [self.dictionary setObject:urlData forKey:title];        // 有个漏洞，就是dictionary不断增大
+//    NSLog(@"%@",[self.dictionary objectForKey:title]);
+    [recentsDatabase setObject:self.dictionary forKey:@"dictionary"];
+    if ([self.sortingArray count] == 10) {
+        for (NSString *photoTitle in self.sortingArray) {
+            if (photoTitle == title) {
+                [self.sortingArray removeObject:photoTitle];
+                [self.sortingArray addObject:photoTitle];
+                [recentsDatabase setObject:self.sortingArray forKey:@"array"];
+                return;
+            }
+        }
+        [self.sortingArray removeObjectAtIndex:0];
+    }
+    [self.sortingArray addObject:title];
+    [recentsDatabase setObject:self.sortingArray forKey:@"array"];
+    [recentsDatabase synchronize]; // 马上把cache中的数据写入磁盘
+}
+
+//- (void)readDatabase      不知道为什么这么写是不行的，所以想要每次读取database，我把它放在init数组和字典里面了
+//{
+//    NSUserDefaults *recentsDatabase = [NSUserDefaults standardUserDefaults];
+//    self.sortingArray = (NSMutableArray *)[recentsDatabase arrayForKey:@"array"];
+//    self.dictionary = (NSMutableDictionary *)[recentsDatabase dictionaryForKey:@"dictionary"];
+//}
+
 
 @end

@@ -10,6 +10,7 @@
 
 @interface RecentsTableViewController : UITableViewController
 
-@property (strong, nonatomic) NSArray *fetchRecents;
+@property (strong, nonatomic) NSArray *sortingArray;
+@property (strong, nonatomic) NSDictionary *dictionary;
 
 @end

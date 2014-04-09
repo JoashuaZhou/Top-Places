@@ -12,7 +12,6 @@
 
 @property (strong, nonatomic) UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
-@property (strong, nonatomic) UIImage *image;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *spinner;
 
 @end
@@ -29,6 +28,7 @@
 {
     [super viewDidLoad];
     [self.scrollView addSubview:self.imageView];
+    [self.navigationItem.backBarButtonItem setTitle:@""];
 }
 
 // Lazy instaniation
@@ -83,6 +83,7 @@
 - (void)downloadPhoto
 {
     [self.spinner startAnimating];
+    
     NSURLRequest *request = [NSURLRequest requestWithURL:self.URLForImage];
     NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration ephemeralSessionConfiguration];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration];
@@ -94,8 +95,8 @@
                                                                 dispatch_async(dispatch_get_main_queue(), ^{ self.image = image; });
                                                             }
                                                         }
-                                                        
                                                     }];
+
     [task resume];  // 默认是挂起
 }
 @end
